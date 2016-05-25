@@ -63,25 +63,20 @@ class LinkedList(AbstractLinkedList):
     """
 
     def __init__(self, elements=None):
+        if not elements:
+            self.elements = []
+        else:
+            self.elements = elements
         
-        self.start = None
+        self.start = self.elements[0]
+        self.end = self.elements[-1]
         
-        
-        node = Node(elements[0])
-        node.next = self.start
+        for elem in elements:
+            elem = Node(elem)
+            self.elements.append(elem)
 
-        self.end = self.start
-        self.start = Node(elements[0])
-        
-        current_node = self.start
-        for i, elem in enumerate(elements):
-            current_node = Node(elem)
-            current_node.next = i+1
-            
     def __str__(self):
         return str(self.elements)
-
-        self.start = node
 
     def __len__(self):
         return len(self.elements)
@@ -92,7 +87,7 @@ class LinkedList(AbstractLinkedList):
     def __getitem__(self, index):
         return self.elements[index]
 
-    def __add__(self, other):
+        if hasattr(list, "elements"):
         return self.elements + other.elements
 
     def __iadd__(self, other):
@@ -105,13 +100,7 @@ class LinkedList(AbstractLinkedList):
             pass
 
     def append(self, elem):
-        if self.start is None:
-            self.start = Node(elem)
-            self.end = self.start
-        else:
-            self.end.next = Node(elem)
-            self.end = self.end.next
-
+        return self.elements.append(elem)
 
     def count(self):
         return len(self)
