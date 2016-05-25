@@ -63,16 +63,36 @@ class LinkedList(AbstractLinkedList):
     """
 
     def __init__(self, elements=None):
-        
-        self.start = None
-        
-        
-        node = Node(elements[0])
-        node.next = self.start
 
+
+        # self.end = self.start
+
+        # self.start = Node(elements[0])
         self.end = self.start
-        self.start = Node(elements[0])
         
+        self.elements = elements
+        
+        size_of_elements = len(elements)
+        for i, elem in enumerate(self.elements, start=1):
+            current_node = Node(elem)
+            if i > size_of_elements:
+                self.end = current_node
+                break
+            if not self.start:
+                self.start = current_node
+            if not current_node.next:
+                current_node = current_node.next
+        
+        try:
+            pass
+        
+        except StopIteration:
+            current_node = Node(elem)
+            self.end = current_node
+        
+        # iterate through elements
+        # create a node for each elem in elements with elem as its value and
+        # declared as the previous self.next
         current_node = self.start
         for i, elem in enumerate(elements):
             current_node = Node(elem)
@@ -111,6 +131,7 @@ class LinkedList(AbstractLinkedList):
         else:
             self.end.next = Node(elem)
             self.end = self.end.next
+            
 
 
     def count(self):
