@@ -63,66 +63,89 @@ class LinkedList(AbstractLinkedList):
     """
 
     def __init__(self, elements=None):
-
-
-        # self.end = self.start
-
-        # self.start = Node(elements[0])
+        self.start = None
         self.end = self.start
+        self.elements = elements or []
+        self.current_node = self.start
+        self.linked_list = []
+
+        for elem in self.elements:
+            self.linked_list.append(elem)
         
-        self.elements = elements
+        if self.linked_list:
+            self.start = self.linked_list[0]
+            self.end = self.linked_list[-1]
+
+        # size_of_elements = len(self.elements)
+        # for i, elem in enumerate(self.elements, start=1):
+        #     self.current_node = Node(elem)
+        #     if i == size_of_elements:
+        #         self.end = self.current_node
+        #         break
+            
+        #     if not self.start:
+        #         self.start = Node(elem)
+        #         self.current_node.next = Node(self.elements[i])
+        #         self.start.next = self.current_node.next
+                
+        #     if not self.current_node.next:
+        #         # self.current_node = Node(self.elements[i])
+        #         # self.current_node.next = Node(self.elements[i])
+        #         self.current_node = Node(elem)
+        #         self.current_node.next = self.current_node
         
-        size_of_elements = len(elements)
-        for i, elem in enumerate(self.elements, start=1):
-            current_node = Node(elem)
-            if i > size_of_elements:
-                self.end = current_node
-                break
-            if not self.start:
-                self.start = current_node
-            if not current_node.next:
-                current_node = current_node.next
+        # try:
+        #     pass
         
-        try:
-            pass
-        
-        except StopIteration:
-            current_node = Node(elem)
-            self.end = current_node
+        # except StopIteration:
+        #     self.current_node = Node(elem)
+        #     self.end = self.current_node
         
         # iterate through elements
         # create a node for each elem in elements with elem as its value and
         # declared as the previous self.next
-        current_node = self.start
-        for i, elem in enumerate(elements):
-            current_node = Node(elem)
-            current_node.next = i+1
+        # self.current_node = self.start
+        # for i, elem in enumerate(elements):
+        #     self.current_node = Node(elem)
+        #     self.current_node.next = i+1
             
     def __str__(self):
-        return str(self.elements)
-
-        self.start = node
+        return str(self)
 
     def __len__(self):
-        return len(self.elements)
+        count = 0
+        if self.start is None:
+            return 0
+        else:
+            self.current_node = self.start
+            
+        while next(self.current_node):
+            count += 1
+            self.current_node = next(self.current_node)
+        return count
 
     def __iter__(self):
-        return next(self.elements)
+        for node in self.linked_list:
+            yield node
 
     def __getitem__(self, index):
-        return self.elements[index]
+        return self
 
     def __add__(self, other):
-        return self.elements + other.elements
+        return self + other
 
     def __iadd__(self, other):
-        return self.elements + other.elements
+        return self + other
 
     def __eq__(self, other):
-        try:
-            return self.elements == other.elements
-        except AttributeError:
-            pass
+
+            self.current_node = self.start
+            other.current_node = other.start
+
+            while self.current_node.next == other.current_node.next:
+                if self.current_node == other.current_node:
+                    self.current_node = self.current_node.next
+                    other.current_node = other.current_node.next
 
     def append(self, elem):
         if self.start is None:
@@ -131,12 +154,12 @@ class LinkedList(AbstractLinkedList):
         else:
             self.end.next = Node(elem)
             self.end = self.end.next
-            
-
 
     def count(self):
         return len(self)
 
     def pop(self, index=None):
-        if index:
-            return self.pop(index)
+        try:
+            self.pop(index)
+        except Exception:
+            raise IndexError
